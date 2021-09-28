@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+
+    <title>Insurance Cost Predictor</title>
+      <style>
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .bodyy{
+         color: white; text-align:center;add margin: auto; max-width:50%;padding:20px; margin-top=10px;
+        }
+        label{
+            padding:10px;
+        }
+        body{
+        background-color:grey;
+        }
+@media (max-width: 993px) and (min-width:663px){
+.bodyy {max-width: 70%;}
+}
+@media (max-width: 662px) and (min-width:300px) {
+  .bodyy {max-width: 90%;}
+}
+
+    </style>
+  </head>
+
+  <body class="bg-dark">
+  <center>
+    <div class="bodyy">
+
+          <div class="header">
+              <h1>Insurance Cost Predictor</h1>
+
+          </div>
+
+          <div class="body">
+
+              <form method="post" name="myform" accept-charset="utf-8">
+
+                  <div>
+                      <label><b>Enter your Age</b></label>
+                      <input type="number" class="form-control" id="age" name="age" required placeholder="Age">
+                  </div>
+                  <div>
+                      <label><b>Select your Sex</b></label>
+                      <select class="form-control" id="sex" name="sex" required>
+                          <option value="" selected disabled hidden>Select an Option</option>
+                            {% for sexs in sexs %}
+                          <option value="{{sexs}}">{{sexs}}</option>
+                              {% endfor %}
+                      </select>
+                  </div>
+                  <div>
+                      <label><b>Enter your BMI</b></label>
+                      <input type="float" class="form-control" id="bmi" name="bmi" required placeholder="BMI">
+                  </div>
+                  <div>
+                      <label><b>How many Dependents do you have?</b></label>
+                      <input type="number" class="form-control" id="dep" name="dep" required placeholder="Dependents">
+                  </div>
+
+                      <label><b>Are you a Smoker?</b></label>
+                      <select class="form-control" id="smoke" name="smoke" required>
+                          <option value="" selected disabled hidden>Select an Option</option>
+                          {% for smoker in smoker %}
+                          <option value="{{smoker}}">{{smoker}}</option>
+                          {% endfor %}
+                      </select>
+
+                  <div>
+                      <label><b>Which Region do you live in?</b></label>
+                      <select class="form-control" id="region" name="region" required>
+                          <option value="" selected disabled hidden>Select an Option</option>
+                          {% for regions in regions %}
+                          <option value="{{regions}}">{{regions}}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <br>
+                  <div class="col-md-12" style="text-align:center;">
+                      <button class="btn-btn-primary form-control" type="submit" onclick="send_data()"><b> Predict Cost </b></button>
+                  </div>
+              </form>
+              <br>
+              <div class="col-md-12" style="text-align:center">
+                  <b><h3 style="color: white;"><span id="prediction"></span></h3></b>
+
+              </div>
+          </div>
+      </div>
+</center>
+
+<script>
+
+    function form_handler(event)
+    {
+        event.preventDefault();
+    }
+    function send_data()
+    {
+        var age=document.myform.age.value;
+        var bmi=document.myform.bmi.value;
+        var sex=document.myform.sex.value;
+        var dep=document.myform.dep.value;
+        var smoke=document.myform.smoke.value;
+        var region=document.myform.region.value;
+
+        if (/^\s*$/.test(region)){}
+        if (/^\s*$/.test(dep)){}
+        if (/^\s*$/.test(age)){}
+        if (/^\s*$/.test(bmi)){}
+        if (/^\s*$/.test(sex)){}
+        if (/^\s*$/.test(smoke)){}
+
+else{
+
+
+    try{
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','/predict',true);
+        document.getElementById("prediction").innerHTML="Wait...";
+
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==XMLHttpRequest.DONE){
+                document.getElementById("prediction").innerHTML="Prediction: $"+xhr.responseText;
+
+            }
+        };
+
+        xhr.onload=function(){};
+        xhr.send(fd);
+        }
+        catch(err){
+        message.innerHTML = "Input is " + err;
+        }}
+
+
+    }
+</script>
+  </body>
+</html>
