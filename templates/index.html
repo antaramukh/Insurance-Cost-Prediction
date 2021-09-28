@@ -22,11 +22,15 @@
         .bodyy{
          color: white; text-align:center;add margin: auto; max-width:50%;padding:20px; margin-top=10px;
         }
-        label{
+        select{
             padding:10px;
         }
         body{
-        background-color:grey;
+background: #355C7D;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
         }
 @media (max-width: 993px) and (min-width:663px){
 .bodyy {max-width: 70%;}
@@ -43,7 +47,7 @@
     <div class="bodyy">
 
           <div class="header">
-              <h1>Insurance Cost Predictor</h1>
+              <h1>Insurance Cost Predictor</h1><br>
 
           </div>
 
@@ -52,39 +56,38 @@
               <form method="post" name="myform" accept-charset="utf-8">
 
                   <div>
-                      <label><b>Enter your Age</b></label>
-                      <input type="number" class="form-control" id="age" name="age" required placeholder="Age">
-                  </div>
+
+                      <input type="number" class="form-control" id="age" name="age" required placeholder="Enter your Age">
+                  </div><br>
                   <div>
-                      <label><b>Select your Sex</b></label>
+
                       <select class="form-control" id="sex" name="sex" required>
-                          <option value="" selected disabled hidden>Select an Option</option>
+                          <option value="" selected disabled hidden>Select Sex</option>
                             {% for sexs in sexs %}
                           <option value="{{sexs}}">{{sexs}}</option>
                               {% endfor %}
                       </select>
+                      <br>
                   </div>
                   <div>
-                      <label><b>Enter your BMI</b></label>
-                      <input type="float" class="form-control" id="bmi" name="bmi" required placeholder="BMI">
-                  </div>
-                  <div>
-                      <label><b>How many Dependents do you have?</b></label>
-                      <input type="number" class="form-control" id="dep" name="dep" required placeholder="Dependents">
-                  </div>
 
-                      <label><b>Are you a Smoker?</b></label>
+                      <input type="float" class="form-control" id="bmi" name="bmi" required placeholder="Enter your BMI">
+                  </div><br>
+                  <div>
+                      <input type="number" class="form-control" id="dep" name="dep" required placeholder="How many Dependents do you have?">
+                  </div><br>
+
+
                       <select class="form-control" id="smoke" name="smoke" required>
-                          <option value="" selected disabled hidden>Select an Option</option>
+                          <option value="" selected disabled hidden>Are you a Smoker?</option>
                           {% for smoker in smoker %}
                           <option value="{{smoker}}">{{smoker}}</option>
                           {% endfor %}
-                      </select>
+                      </select><br>
 
                   <div>
-                      <label><b>Which Region do you live in?</b></label>
                       <select class="form-control" id="region" name="region" required>
-                          <option value="" selected disabled hidden>Select an Option</option>
+                          <option value="" selected disabled hidden>Which Region do you live in?</option>
                           {% for regions in regions %}
                           <option value="{{regions}}">{{regions}}</option>
                           {% endfor %}
@@ -93,14 +96,15 @@
                   <br>
                   <div class="col-md-12" style="text-align:center;">
                       <button class="btn-btn-primary form-control" type="submit" onclick="send_data()"><b> Predict Cost </b></button>
-                  </div>
+                  </div><br>
               </form>
-              <br>
+
               <div class="col-md-12" style="text-align:center">
                   <b><h3 style="color: white;"><span id="prediction"></span></h3></b>
 
               </div>
           </div>
+        <br><br>
       </div>
 </center>
 
@@ -135,7 +139,7 @@ else{
         var fd=new FormData(document.querySelector('form'));
         var xhr=new XMLHttpRequest();
         xhr.open('POST','/predict',true);
-        document.getElementById("prediction").innerHTML="Wait...";
+        document.getElementById("prediction").innerHTML="Give me a Minute...";
 
         xhr.onreadystatechange=function(){
             if(xhr.readyState==XMLHttpRequest.DONE){
