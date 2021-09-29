@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Insurance Cost Predictor</title>
+    <style>
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .bodyy{
+         color: white; text-align:center;add margin: auto; max-width:50%;padding:20px; margin-top=10px;
+        }
+        select{
+            padding:10px;
+        }
+        body{
+            background: #355C7D;
+            background: -webkit-linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D);
+            background: linear-gradient(to bottom, #C06C84, #6C5B7B, #355C7D);
+        }
+        @media (max-width: 993px) and (min-width:663px){
+            .bodyy {max-width: 70%;}
+        }
+        @media (max-width: 662px) and (min-width:300px) {
+            .bodyy {max-width: 90%;}
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+  <center>
+    <div class="bodyy">
+
+          <div class="header">
+              <h1>Insurance Cost Predictor</h1><br>
+
+          </div>
+
+          <div class="body">
+
+              <form method="post" name="myform" accept-charset="utf-8">
+
+                  <div>
+
+                      <input type="number" class="form-control" id="age" name="age" required placeholder="Enter your Age">
+                  </div><br>
+                  <div>
+
+                      <select class="form-control" id="sex" name="sex" required>
+                          <option value="" selected disabled hidden>Select Sex</option>
+                            {% for sexs in sexs %}
+                          <option value="{{sexs}}">{{sexs}}</option>
+                              {% endfor %}
+                      </select>
+                      <br>
+                  </div>
+                  <div>
+
+                      <input type="float" class="form-control" id="bmi" name="bmi" required placeholder="Enter your BMI">
+                  </div><br>
+                  <div>
+                      <input type="number" class="form-control" id="dep" name="dep" required placeholder="How many Dependents do you have?">
+                  </div><br>
+
+
+                      <select class="form-control" id="smoke" name="smoke" required>
+                          <option value="" selected disabled hidden>Are you a Smoker?</option>
+                          {% for smoker in smoker %}
+                          <option value="{{smoker}}">{{smoker}}</option>
+                          {% endfor %}
+                      </select><br>
+
+                  <div>
+                      <select class="form-control" id="region" name="region" required>
+                          <option value="" selected disabled hidden>Which Region do you live in?</option>
+                          {% for regions in regions %}
+                          <option value="{{regions}}">{{regions}}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <br>
+                  <div class="col-md-12" style="text-align:center;">
+                      <button class="btn-btn-primary form-control" type="submit" onclick="send_data()"><b> Predict Cost </b></button>
+                  </div><br>
+              </form>
+
+              <div class="col-md-12" style="text-align:center">
+                  <b><h3 style="color: white;"><span id="prediction"></span></h3></b>
+
+              </div>
+          </div>
+        <br><br>
+      </div>
+</center>
+
+<script>
+
+    function form_handler(event)
+    {
+        event.preventDefault();
+    }
+    function send_data()
+    {
+    try{
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','/predict',true);
+        document.getElementById("prediction").innerHTML="Give me a Minute...";
+
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==XMLHttpRequest.DONE){
+                document.getElementById("prediction").innerHTML="Prediction: $"+xhr.responseText;
+
+            }
+        };
+
+        xhr.onload=function(){};
+        xhr.send(fd);
+        }
+        catch(err){
+        message.innerHTML = "Input is " + err;
+        }
+    }
+</script>
+  </body>
+</html>
