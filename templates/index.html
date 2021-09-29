@@ -111,6 +111,21 @@
     }
     function send_data()
     {
+        var age=document.myform.age.value;
+        var bmi=document.myform.bmi.value;
+        var sex=document.myform.sex.value;
+        var dep=document.myform.dep.value;
+        var smoke=document.myform.smoke.value;
+        var region=document.myform.region.value;
+
+        if (/^\s*$/.test(region)){}
+        if (/^\s*$/.test(dep)){}
+        if (/^\s*$/.test(age)){}
+        if (/^\s*$/.test(bmi)){}
+        if (/^\s*$/.test(sex)){}
+        if (/^\s*$/.test(smoke)){}
+
+else{
     try{
         document.querySelector('form').addEventListener("submit",form_handler);
 
@@ -131,7 +146,7 @@
         }
         catch(err){
         message.innerHTML = "Input is " + err;
-        }
+        }}
     }
 </script>
   </body>
